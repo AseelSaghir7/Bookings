@@ -2,11 +2,13 @@ package handlers
 
 import (
 	"github.com/AseelSaghir7/Bookings/pkg/config"
+	"github.com/AseelSaghir7/Bookings/pkg/models"
 	"github.com/AseelSaghir7/Bookings/pkg/render"
 	"net/http"
 )
 
-// Repo the repository used by the handlers
+// Repo - The reason I'm saving main's app variable to new variable. Because I don't want to make changes in original variable instead we will use copy of it and use it for render and handlers pkg
+//Repo - the repository used by the handlers
 var Repo *Repository
 
 // Repository is the repository type
@@ -28,10 +30,12 @@ func NewHandlers(r *Repository) {
 
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.gohtml")
+	render.RenderTemplate(w, "home.page.gohtml", &models.TemplateData{})
 }
 
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.gohtml")
+	stringMap := make(map[string]string)
+	stringMap["test"] = "hello again"
+	render.RenderTemplate(w, "about.page.gohtml", &models.TemplateData{})
 }

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/AseelSaghir7/Bookings/pkg/config"
+	"github.com/AseelSaghir7/Bookings/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 
 var functions = template.FuncMap{}
 
+//The reason I'm saving main's app variable to new variable. Because I don't want to make changes in original variable instead we will use copy of it and use it for render and handlers pkg
 var app *config.AppConfig
 
 // NewTemplates sets the config for the template package
@@ -19,8 +21,12 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaullData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -37,7 +43,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaullData(td)
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {

@@ -13,6 +13,8 @@ const portNumber = ":8080"
 
 // main is the main function
 func main() {
+
+	//I will have to pass this app variable in rest of application where it needs
 	var app config.AppConfig
 
 	tc, err := render.CreateTemplateCache()
