@@ -12,6 +12,7 @@ import (
 var Repo *Repository
 
 // Repository is the repository type
+//Saving into struct because in future we may add more things in struct...
 type Repository struct {
 	App *config.AppConfig
 }
@@ -37,5 +38,7 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
 	stringMap["test"] = "hello again"
-	render.RenderTemplate(w, "about.page.gohtml", &models.TemplateData{})
+	render.RenderTemplate(w, "about.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
